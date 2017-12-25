@@ -18,6 +18,7 @@
     "url": "git://github.com/kevinohara80/nforce.git"
   },
   "main": "index.js",
+  "types": "types/index.d.ts",
   "dependencies": {
     "bluebird": "^2.3.11",
     "faye": "1.2.3",
