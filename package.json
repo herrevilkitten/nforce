@@ -2,7 +2,7 @@
   "author": "Kevin O'Hara <kevnohara80@gmail.com> (http://kevinmohara.com)",
   "name": "nforce",
   "description": "nforce is a REST API wrapper for force.com, database.com, and salesforce.com",
-  "version": "1.7.0",
+  "version": "1.9.0",
   "keywords": [
     "salesforce",
     "salesforce.com",
@@ -18,12 +18,13 @@
     "url": "git://github.com/kevinohara80/nforce.git"
   },
   "main": "index.js",
+  "types": "types/index.d.ts",
   "dependencies": {
     "bluebird": "^2.3.11",
     "faye": "1.2.3",
     "lodash": "^3.10.1",
-    "mime": "1.2.11",
-    "request": "^2.49.0"
+    "mime": "1.4.1",
+    "request": "2.81.0"
   },
   "devDependencies": {
     "body-parser": "1.0.2",
