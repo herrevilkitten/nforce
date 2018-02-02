@@ -326,7 +326,7 @@ export class Connection implements ConnectionOptions {
 
     getBody(options: GetBodyOptions, callback?: Function): Promise<any>;
 
-    getAttachmentBody(options: GetAttachmentBodyOptions, callback?: Function): Promise<any>;
+    getAttachmentBody(options: GetAttachmentBodyOptions, callback?: Function): Promise<Buffer>;
 
     getDocumentBody(options: GetDocumentBodyOptions, callback?: Function): Promise<any>;
 
