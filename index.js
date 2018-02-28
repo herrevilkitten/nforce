@@ -739,6 +739,19 @@ Connection.prototype.apexRest = function(data, callback) {
   return this._apiRequest(opts, opts.callback);
 };
 
+// SAM
+Connection.prototype.customRest = function(data, callback) {
+    var opts = this._getOpts(data, callback, {
+        singleProp: 'uri'
+    });
+    opts.uri = opts.oauth.instance_url + '/services/' + ((data.uri.substring(0,1)==='/') ? data.uri.substring(1) : data.uri);
+    opts.method = opts.method || 'GET';
+    if(opts.urlParams) {
+        opts.qs = opts.urlParams;
+    }
+    return this._apiRequest(opts, opts.callback);
+};
+
 /*****************************
  * streaming api
  *****************************/
