@@ -103,6 +103,25 @@ var Connection = function(opts) {
 };
 
 /*****************************
+ * plugins
+ *****************************/
+
+Connection.prototype.addPlugin = function(pluginModule, pluginName) {
+  pluginName = pluginName || pluginModule.replace('nforce-', '');
+  var pluginInstance = require(pluginModule)(nforce, pluginName);
+  if(!plugins[pluginName]) throw new Error('plugin ' + pluginName + ' not found');
+  // clone the object
+  self[pluginName] = _.clone(plugins[pluginName]._fns);
+
+  // now bind to the connection object
+  _.forOwn(self[pluginName], function(fn, key) {
+    self[pluginName][key] = _.bind(self[pluginName][key], self);
+  });
+
+  return this;
+}
+
+/*****************************
  * auth getters/setters
  *****************************/
 

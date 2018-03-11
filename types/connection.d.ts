@@ -272,6 +272,8 @@ export class Connection implements ConnectionOptions {
 
     constructor(options: ConnectionOptions);
 
+    addPlugin(pluginModule: string, pluginName?: string): Connection;
+
     getOAuth(options?: GetAuthUriOptions): AuthenticateResponse;
 
     setOAuth(oauth: AuthenticateResponse): void;
