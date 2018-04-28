@@ -3,6 +3,7 @@ import { RecordType } from './index';
 import { Limit, LimitInfo } from './limits';
 
 import { EventEmitter } from 'events';
+import { StreamingClient, StreamingSubscription } from './streaming';
 
 export type ModeType = 'single' | 'multi';
 
@@ -341,6 +342,14 @@ export class Connection implements ConnectionOptions {
     search(data: string | SearchOptions, callback?: Function): Promise<any>;
 
     getUrl(data: string | GetUrlOptions, callback?: Function): Promise<any>;
+
+    /*****************************
+     * streaming api
+     *****************************/
+
+    createStreamClient(options?: BaseOptions): StreamingClient;
+
+    subscribe(options: SubscribeStreamOptions): StreamingSubscription;
 
     /*****************************
      * plugin support
