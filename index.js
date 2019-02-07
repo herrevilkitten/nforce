@@ -649,7 +649,7 @@ Connection.prototype.queryAll = function (data, callback) {
   return this._queryHandler(opts, opts.callback);
 };
 
-Connection.prototype._queryHandler = async function (data, callback) {
+Connection.prototype._queryHandler = function (data, callback) {
   var self = this;
   var recs = [];
   var opts = this._getOpts(data, callback);
@@ -668,13 +668,20 @@ Connection.prototype._queryHandler = async function (data, callback) {
   };
 
   const objectFieldCache = {};
-  const getObjectFields = async (objectName) => {
+  const getObjectFields = (objectName) => {
     if (objectFieldCache[objectName]) {
       return Promise.resolve(objectFieldCache[objectName]);
     }
-    const result = await this.getDescribe({ type: objectName });
-    objectFieldCache[objectName] = result.fields;
-    return result.fields;
+    return new Promise((resolve, reject) => {
+      this.getDescribe({ type: objectName })
+        .then((result) => {
+          objectFieldCache[objectName] = result.fields;
+          resolve(result.fields);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   function buildQuery(query, parameters, defaults) {
@@ -741,16 +748,21 @@ Connection.prototype._queryHandler = async function (data, callback) {
   const match = /^\s*select\s+\*(,.+?)?\s+from\s+(\w+).*/i.exec(opts.query);
   if (match) {
     if (!opts.fields || opts.fields === 'auto') {
-      const fields = await getObjectFields(match[2]);
-      opts.query = buildQuery(
-        opts.query.replace('*', fields.map((field) => field.name).join(', ')),
-        opts.parameters,
-        opts.defaults,
-      );
-      opts.qs = {
-        q: opts.query
-      };
-      this._apiRequest(opts, handleResults);
+      getObjectFields(match[2])
+        .then((fields) => {
+          opts.query = buildQuery(
+            opts.query.replace('*', fields.map((field) => field.name).join(', ')),
+            opts.parameters,
+            opts.defaults,
+          );
+          opts.qs = {
+            q: opts.query
+          };
+          this._apiRequest(opts, handleResults);
+        })
+        .catch((error) => {
+          resolver.reject(error);
+        });
       return resolver.promise;
     } else if (Array.isArray(opts.fields)) {
       opts.query = buildQuery(
