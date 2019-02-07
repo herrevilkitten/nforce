@@ -649,7 +649,7 @@ Connection.prototype.queryAll = function (data, callback) {
   return this._queryHandler(opts, opts.callback);
 };
 
-Connection.prototype._queryHandler = function (data, callback) {
+Connection.prototype._queryHandler = async function (data, callback) {
   var self = this;
   var recs = [];
   var opts = this._getOpts(data, callback);
