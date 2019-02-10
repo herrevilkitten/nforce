@@ -22,8 +22,8 @@ export class Record {
     getType(): string;
     isType(type: string): boolean;
     getExternalId(): string;
-    getExternalIdField(): string;
-    setExternalIdField(field: string, value: RecordType);
+    getExternalIdField(): void;
+    setExternalIdField(field: string, value: RecordType): void;
 
     getAttachment(): Attachment;
     setAttachment(fileName: string, body: any): void;

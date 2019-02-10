@@ -3,5 +3,5 @@ export interface PluginOptions {
     override?: boolean;
 }
 
-export function plugin(namespace: string);
-export function plugin(options: PluginOptions);
+export function plugin(namespace: string): void;
+export function plugin(options: PluginOptions): void;
